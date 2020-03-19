@@ -1,0 +1,21 @@
+# base image
+#FROM node:12.16.1-alpine # alpine だと bash が入ってない
+FROM node:12.16.1
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/client/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY client/package.json /app/client/package.json
+COPY server/package.json /app/server/package.json
+COPY start_servers_in_docker.sh /app/start_servers_in_docker.sh
+WORKDIR /app/client
+RUN npm install --silent
+WORKDIR /app/server
+RUN npm install --silent
+
+# set working directory
+WORKDIR /app
+
+# start app
+CMD ["./start_servers_in_docker.sh"]

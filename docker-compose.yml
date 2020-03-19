@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+
+  hello_react:
+    container_name: hello_react_container
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=development
